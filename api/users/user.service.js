@@ -73,10 +73,22 @@ const deleteUser = (id, callBack) => {
     );
 };
 
+const getUserByUserEmail = (email, callBack) => {
+    pool.query(
+        `select * from registration where email = ?`,
+        [email],
+        (error, results, fields) => {
+            if (error) callBack(error);
+            return callBack(null, results[0]);
+        }
+    );
+};
+
 module.exports = {
     create,
     getUsers,
     getUserByUserId,
     updateUser,
     deleteUser,
+    getUserByUserEmail,
 };

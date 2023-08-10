@@ -77,21 +77,29 @@ const updateUsers = (req, res) => {
 };
 
 const deleteUsers = (req, res) => {
-    const data = req.body;
-    deleteUser(body, (err, results) => {
+    const id = req.body.id;
+    getUserByUserId(id, (err, results) => {
         if (err) {
             console.log(err);
-            return;
+            return res.status(500).json({ Message: "something wrong happen" });
         }
         if (!results) {
             return res.json({
                 success: 0,
-                message: "record not found",
+                message: "Record Not found",
             });
         }
-        return res.json({
-            success: 1,
-            message: "user deleted successfully",
+        deleteUser(id, (err, results) => {
+            if (err) {
+                console.log(err);
+                return res
+                    .status(500)
+                    .json({ Message: "something wrong happen" });
+            }
+            return res.json({
+                success: 1,
+                message: "Deleted Successfully",
+            });
         });
     });
 };

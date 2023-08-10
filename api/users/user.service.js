@@ -45,7 +45,7 @@ const getUserByUserId = (id, callBack) => {
 
 const updateUser = (data, callBack) => {
     pool.query(
-        `update regisration set firstName=?, lastName=?, gender=?, email=?, password=? where id = ?`,
+        `update registration set firstName=?, lastName=?, gender=?, email=?, password=?, number=? where id = ?`,
         [
             data.first_name,
             data.last_name,
@@ -62,13 +62,13 @@ const updateUser = (data, callBack) => {
     );
 };
 
-const deleteUser = (data, callBack) => {
+const deleteUser = (id, callBack) => {
     pool.query(
         `delete from registration where id = ?`,
-        [data.id],
+        [id],
         (error, results, fields) => {
             if (error) callBack(error);
-            return callBack(null, resluts[0]);
+            return callBack(null, results[0]);
         }
     );
 };

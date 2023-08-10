@@ -25,7 +25,7 @@ const getUsers = (callBack) => {
     pool.query(
         `select id,firstName,lastName,gender,email,number from registration`,
         [],
-        (error, resluts, fields) => {
+        (error, results, fields) => {
             if (error) callBack(error);
             return callBack(null, results);
         }
@@ -34,7 +34,7 @@ const getUsers = (callBack) => {
 
 const getUserByUserId = (id, callBack) => {
     pool.query(
-        `select fistName, lastName, gender, email, number from registration where id = ?`,
+        `select firstName, lastName, gender, email, number from registration where id = ?`,
         [id],
         (error, results, fields) => {
             if (error) callBack(error);
@@ -43,4 +43,40 @@ const getUserByUserId = (id, callBack) => {
     );
 };
 
-module.exports = { create, getUsers };
+const updateUser = (data, callBack) => {
+    pool.query(
+        `update regisration set firstName=?, lastName=?, gender=?, email=?, password=? where id = ?`,
+        [
+            data.first_name,
+            data.last_name,
+            data.gender,
+            data.email,
+            data.password,
+            data.number,
+            data.id,
+        ],
+        (error, results, fields) => {
+            if (error) return callBack(error);
+            return callBack(null, results[0]);
+        }
+    );
+};
+
+const deleteUser = (data, callBack) => {
+    pool.query(
+        `delete from registration where id = ?`,
+        [data.id],
+        (error, results, fields) => {
+            if (error) callBack(error);
+            return callBack(null, resluts[0]);
+        }
+    );
+};
+
+module.exports = {
+    create,
+    getUsers,
+    getUserByUserId,
+    updateUser,
+    deleteUser,
+};

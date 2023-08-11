@@ -8,11 +8,13 @@ const {
 } = require("./user.controller");
 const router = require("express").Router();
 
-router.post("/", createUser);
-router.get("/", getAllUsers);
-router.get("/:id", getUserById);
-router.patch("/", updateUsers);
-router.delete("/", deleteUsers);
+const { checkToken } = require("../../auth/token_validation");
+
+router.post("/", checkToken, createUser);
+router.get("/", checkToken, getAllUsers);
+router.get("/:id", checkToken, getUserById);
+router.patch("/", checkToken, updateUsers);
+router.delete("/", checkToken, deleteUsers);
 router.post("/login", login);
 
 module.exports = router;
